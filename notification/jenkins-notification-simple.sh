@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #------------------------------------------------------------------------------------
-#title           :jenkins-notification.sh
-#description     :jenkins 构建结束后做消息推送
+#title           :jenkins-notification-simple.sh
+#description     :jenkins 简单模板
 #author          :giscafer ( http://giscafer.com )
-#date            :2019-6-24 10:45:18
-# 使用方式：curl https://raw.githubusercontent.com/RootLinkFE/scripts/master/notification/jenkins-notification-simple.sh |bash -s "fe88d9a1-error-code-4f84-933f-29db651b7ca6" 'test-web' "成功"
+#date            :2020-12-23 12:54:17
+# 使用方式：curl https://raw.sevencdn.com/RootLinkFE/scripts/master/notification/jenkins-notification-simple.sh |bash -s "fe88d9a1-error-code-4f84-933f-29db651b7ca6" 'test-web' "正在构建……"
 #
 #------
 set -e
