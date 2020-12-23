@@ -34,7 +34,9 @@ function error() {
 
 # wechat work webhook robot
 function sendNotifications() {
+    log $webhook_url
     log $deploytime
+    log $json_data
     curl  "$webhook_url" \
     -H 'Content-Type: application/json' \
     -X POST --data "$json_data"
@@ -46,13 +48,16 @@ function sendNotifications() {
 
 trap 'error ${LINENO} ${?};' ERR
 
-# webhook url链接
-webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?debug=1&key=${webhook_key}"
-
+log ${1}
+log ${2}
+log ${3}
+log ${4}
 webhook_key="${1}" # 企业微信群机器人webhook的key，设置到环境变量脱敏
 project_name="${2}" #工程名
 branch="${3}" #分支
-status="${4}" # 构建状态
+buildStatus="${4}" # 构建状态
+webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?&key=${webhook_key}"
+
 
 # 解决容器少8小时问题（按理是容器设置好）
 # date_str=$(date "+%Y-%m-%d %H:%M:%S")
@@ -69,8 +74,10 @@ if [ ! -n "$1" ]; then
     exit 1
 fi
 
-info_content="<font color='info'>$project_name</font> 工程构建【$status】。\n  >分支：<font color='warning'>$branch</font> \n >完成时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >Jenkins Job：[$BUILD_TAG]($BUILD_URL)"
-# logStep "info_content=$info_content"
+# info_content="<font color='info'>$project_name</font> 工程构建。"
+info_content="<font color='info'>$project_name</font> 工程构建 - $buildStatus 。\n  >分支：<font color='warning'>$branch</font> \n >完成时间：<font color='comment'>$deploytime</font> \n >提交者：<font color='comment'>$commitAuthorName<$commitAuthorEmail></font> \n >提交日记：<font color='comment'>$commitMessage</font> \n >Jenkins Job：[$BUILD_TAG]($BUILD_URL)"
+
+# json_data="{  \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"aaa\" }}"
 json_data="{  \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"$info_content\" }}"
 
 sendNotifications
