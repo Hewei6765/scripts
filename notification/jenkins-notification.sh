@@ -47,7 +47,7 @@ function sendNotifications() {
 trap 'error ${LINENO} ${?};' ERR
 
 # webhook url链接
-webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${webhook_key}"
+webhook_url="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?debug=1&key=${webhook_key}"
 
 webhook_key="${1}" # 企业微信群机器人webhook的key，设置到环境变量脱敏
 project_name="${2}" #工程名
